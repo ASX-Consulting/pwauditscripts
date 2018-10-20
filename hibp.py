@@ -3,6 +3,8 @@
 import json
 import requests
 
+printData = True
+
 r = requests.get('https://haveibeenpwned.com/api/v2/breaches')
 if r.status_code == 200:
     j = json.loads(r.text)
@@ -14,10 +16,14 @@ total = 0
 for record in j:
     print (record["Name"] + ","),
     print (record["BreachDate"] + ","),
-    print str(record["PwnCount"])
+    print str(record["PwnCount"]),
+    if printData == True: 
+        print("["),
+        for data in record["DataClasses"]: 
+            print(data),
+        print ("]")
     count += 1
     total = total + record["PwnCount"]
-    
 print("Total number of breaches..............: " + str(count))
 print("Total number of pwn'ed records........: "),
 print "{:,}".format(total)
