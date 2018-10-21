@@ -1,9 +1,9 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # Pulls basic info and stats from haveibeenpwned
 import json
 import requests
 
-printData = True
+printData = False
 
 r = requests.get('https://haveibeenpwned.com/api/v2/breaches')
 if r.status_code == 200:
@@ -14,16 +14,18 @@ else:
 count = 0
 total = 0
 for record in j:
-    print (record["Name"] + ","),
-    print (record["BreachDate"] + ","),
-    print str(record["PwnCount"]),
+    print(record["Name"] + ", ", end="")
+    print(record["BreachDate"] + ", ", end="")
+    print(str(record["PwnCount"]),end="")
     if printData == True: 
-        print("["),
+        print(" [", end="")
         for data in record["DataClasses"]: 
-            print(data),
-        print ("]")
+            print(data, end="")
+        print ("]",)
+    else:
+        print()
     count += 1
     total = total + record["PwnCount"]
 print("Total number of breaches..............: " + str(count))
-print("Total number of pwn'ed records........: "),
-print "{:,}".format(total)
+print("Total number of pwn'ed records........: ", end="")
+print("{:,}".format(total))
